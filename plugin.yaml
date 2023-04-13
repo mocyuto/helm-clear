@@ -1,8 +1,9 @@
 ---
 name: "clear"
-version: "0.1.0"
+version: "0.1.1"
 usage: "Please see https://github.com/mocyuto/helm-clear"
 description: "clear helm resources which are older versions"
 command: "$HELM_PLUGIN_DIR/clear"
 hooks:
   install: "$HELM_PLUGIN_DIR/scripts/install-binary.sh"
+  update: "$HELM_PLUGIN_DIR/scripts/install-binary.sh"

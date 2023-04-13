@@ -1,29 +1,29 @@
-#!/bin/sh -e
+#!/bin/bash -e
 
 appName="helm-clear"
 
 # shellcheck disable=SC2002
 version="$(cat plugin.yaml | grep "version" | cut -d '"' -f 2)"
-echo "Downloading and installing helm-clear v${version} ..."
+echo "Downloading and installing $appName v${version} ..."
 
-url="https://github.com/mocyuto/helm-clear/releases/download/v${version}/${appName}"
+url="https://github.com/mocyuto/$appName/releases/download/v${version}/$appName"
 if [ "$(uname)" = "Darwin" ]; then
   if [ "$(uname -m)" = "arm64" ]; then
-    url=$url"_Darwin_arm64.tar.gz"
+    url="${url}_Darwin_arm64.tar.gz"
   else
-    url=$url"_Darwin_x86_64.tar.gz"
+    url="${url}_Darwin_x86_64.tar.gz"
   fi
 elif [ "$(uname)" = "Linux" ] ; then
     if [ "$(uname -m)" = "aarch64" ] || [ "$(uname -m)" = "arm64" ]; then
-        url=$url"_Linux_arm64.tar.gz"
+        url="${url}_Linux_arm64.tar.gz"
     else
-        url=$url"_Linux_x86_64.tar.gz"
+        url="${url}_Linux_x86_64.tar.gz"
     fi
 else
-    url=$url"_Windows_x86_64.zip"
+    url="${url}_Windows_x86_64.zip"
 fi
 
-echo "$url"
+echo "downloadURL: $url"
 
 mkdir -p "bin"
 mkdir -p "config"
@@ -37,6 +37,6 @@ else
     wget -q "${url}" -O "releases/v${version}.tar.gz"
 fi
 tar xzf "releases/v${version}.tar.gz" -C "releases/v${version}"
-mv "releases/v${version}/clear" "bin/clear" || \
-    mv "releases/v${version}/clear.exe" "bin/clear"
+mv "releases/v${version}/${appName}" "bin/clear" || \
+    mv "releases/v${version}/${appName}.exe" "bin/clear"
 

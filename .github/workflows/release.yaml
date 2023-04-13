@@ -11,18 +11,15 @@ jobs:
     permissions:
       contents: write
     steps:
-      # チェックアウト
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
-      # Go をセットアップ
       - uses: actions/setup-go@v3
         with:
           go-version-file: go.mod
           cache: true
 
-      # リリース
       - uses: goreleaser/goreleaser-action@v4
         with:
           args: release --rm-dist

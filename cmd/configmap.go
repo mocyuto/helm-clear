@@ -2,7 +2,6 @@ package main
 
 import (
 	"errors"
-	"fmt"
 	"io"
 	"os"
 
@@ -32,8 +31,6 @@ func newConfigmapCmd(_ io.Writer, args []string) *cobra.Command {
 			options.DryRun = settings.DryRun
 			options.Namespace = settings.KubeNamespace
 			options.ChartName = args[1]
-
-			fmt.Printf("configmap: %#v\n", options)
 			if err := pkg.RunConfigmap(*options); err != nil {
 				return err
 			}

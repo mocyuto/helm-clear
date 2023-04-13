@@ -30,7 +30,6 @@ func RunConfigmap(option ConfigmapOptions) error {
 		revisions = append(revisions, h.Revision)
 	}
 	sort.Ints(revisions)
-	fmt.Println(revisions)
 
 	// configmapのリストを取得
 	cli, err := k8s.NewClient()
@@ -49,7 +48,6 @@ func RunConfigmap(option ConfigmapOptions) error {
 		if !strings.Contains(i.Name, option.ConfigmapName) {
 			continue
 		}
-		fmt.Printf("configmap: %v, kind:%v\n", i.Name, i.Kind)
 		for _, r := range revisions {
 			if !strings.Contains(i.Name, strconv.Itoa(r)) {
 				removalConfigmaps = append(removalConfigmaps, i.Name)
@@ -60,7 +58,10 @@ func RunConfigmap(option ConfigmapOptions) error {
 
 	// 列挙したものを削除
 	if option.DryRun {
-		fmt.Printf("%v\n", removalConfigmaps)
+		fmt.Println("dry-run mode: configmaps to be removed")
+		for _, c := range removalConfigmaps {
+			fmt.Println(c)
+		}
 		return nil
 	}
 	for _, c := range removalConfigmaps {

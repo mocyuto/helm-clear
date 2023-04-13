@@ -3,7 +3,7 @@
 appName="helm-clear"
 
 # shellcheck disable=SC2002
-version="$(cat plugin.yaml | grep "version" | cut -d '"' -f 2)"
+version="$(cat ../plugin.yaml | grep "version" | cut -d '"' -f 2)"
 echo "Downloading and installing $appName v${version} ..."
 
 url="https://github.com/mocyuto/$appName/releases/download/v${version}/$appName"

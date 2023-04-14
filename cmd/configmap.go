@@ -2,6 +2,7 @@ package main
 
 import (
 	"errors"
+	"fmt"
 	"io"
 	"os"
 
@@ -22,15 +23,16 @@ func newConfigmapCmd(_ io.Writer, args []string) *cobra.Command {
 				_ = cmd.Help()
 				os.Exit(1)
 			}
-			if len(args) != 2 {
-				return errors.New("wrong number of arguments")
+			if len(args) != 1 {
+				return errors.New(fmt.Sprintf("wrong number of arguments. len: %v", len(args)))
 			}
 			return nil
 		},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			options.DryRun = settings.DryRun
 			options.Namespace = settings.KubeNamespace
-			options.ChartName = args[1]
+			options.KubeContext = settings.KubeContext
+			options.ChartName = args[0]
 			if err := pkg.RunConfigmap(*options); err != nil {
 				return err
 			}
@@ -55,7 +57,6 @@ func newConfigmapCmd(_ io.Writer, args []string) *cobra.Command {
 	settings.AddFlags(flags)
 
 	cmd.Flags().IntVar(&options.History, "history", 5, "retain history count")
-	cmd.Flags().StringVar(&options.ChartName, "name", "", "chart name")
 	cmd.Flags().StringVar(&options.ConfigmapName, "configmap", "", "configmap names")
 
 	return cmd

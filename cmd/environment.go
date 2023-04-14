@@ -18,6 +18,6 @@ func (s *EnvSettings) AddBaseFlags(fs *pflag.FlagSet) {
 func (s *EnvSettings) AddFlags(fs *pflag.FlagSet) {
 	s.AddBaseFlags(fs)
 	fs.StringVar(&s.KubeConfigFile, "kubeconfig", "", "path to the kubeconfig file")
-	fs.StringVar(&s.KubeContext, "kube-context", "", "name of the kubeconfig context to use")
+	fs.StringVar(&s.KubeContext, "kube-context", s.KubeContext, "name of the kubeconfig context to use")
 	fs.StringVar(&s.KubeNamespace, "namespace", s.KubeNamespace, "namespace scope for this request")
 }

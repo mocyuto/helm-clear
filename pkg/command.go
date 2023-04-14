@@ -16,8 +16,8 @@ type History struct {
 	AppVersion string `json:"app_version"`
 }
 
-func GetHistory(name, namespace string, count int) ([]History, error) {
-	res, err := getHistory(name, namespace, count)
+func GetHistory(name, namespace, kubeCtx string, count int) ([]History, error) {
+	res, err := getHistory(name, namespace, kubeCtx, count)
 	if err != nil {
 		if strings.Contains(err.Error(), notFoundError) {
 			return nil, nil
@@ -30,7 +30,7 @@ func GetHistory(name, namespace string, count int) ([]History, error) {
 	}
 	return histories, nil
 }
-func getHistory(name string, namespace string, count int) ([]byte, error) {
+func getHistory(name, namespace, kubeCtx string, count int) ([]byte, error) {
 	var max int
 	if count != 0 {
 		max = count
@@ -38,6 +38,9 @@ func getHistory(name string, namespace string, count int) ([]byte, error) {
 	args := []string{"history", name, "--max", strconv.Itoa(max), "--output", "json"}
 	if namespace != "" {
 		args = append(args, "--namespace", namespace)
+	}
+	if kubeCtx != "" {
+		args = append(args, "--kube-context", kubeCtx)
 	}
 	return execute(args)
 }

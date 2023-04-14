@@ -9,10 +9,17 @@ import (
 	"github.com/spf13/cobra"
 )
 
+var rootCmd = &cobra.Command{
+	Use:   "clear",
+	Short: "helm plugin for clear old revision resources",
+}
+
 func main() {
-	cmd := newConfigmapCmd(os.Stdout, os.Args[1:])
-	cmd.AddCommand(newVersionCmd(os.Stdout))
-	if err := cmd.Execute(); err != nil {
+	rootCmd.AddCommand(
+		newConfigmapCmd(os.Stdout, os.Args[1:]),
+		newVersionCmd(os.Stdout),
+	)
+	if err := rootCmd.Execute(); err != nil {
 		os.Exit(1)
 	}
 }

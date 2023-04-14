@@ -44,20 +44,15 @@ func newConfigmapCmd(_ io.Writer, args []string) *cobra.Command {
 	_ = flags.Parse(args)
 
 	settings = new(EnvSettings)
-
 	if ctx := os.Getenv("HELM_KUBECONTEXT"); ctx != "" {
 		settings.KubeContext = ctx
 	}
 	if ns := os.Getenv("HELM_NAMESPACE"); ns != "" {
 		settings.KubeNamespace = ns
 	}
-
-	// Note that the plugin's --kubeconfig flag is set by the Helm plugin framework to
-	// the KUBECONFIG environment variable instead of being passed into the plugin.
 	settings.AddFlags(flags)
 
 	cmd.Flags().IntVar(&options.History, "history", 5, "retain history count")
-	cmd.Flags().StringVar(&options.ConfigmapName, "configmap", "", "configmap names")
 
 	return cmd
 }

@@ -1,0 +1,25 @@
+name: build-test
+on:
+  push:
+    branches:
+      - 'main'
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-go@v4
+        with:
+          go-version-file: go.mod
+      - name: go mod
+        run: go mod download
+      - name: Run unit tests
+        run: |
+          test -z `go fmt $(go list ./...) | tee /dev/stderr`
+          go test -v -cover -race ./...
+      - name: Test build
+        run: go build -o clear ./cmd

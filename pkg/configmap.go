@@ -16,12 +16,13 @@ type ConfigmapOptions struct {
 	History       int
 	ChartName     string
 	Namespace     string
+	KubeContext   string
 	ConfigmapName string
 }
 
 func RunConfigmap(option ConfigmapOptions) error {
 	// revision historyを取得
-	histories, err := GetHistory(option.ChartName, option.Namespace, option.History)
+	histories, err := GetHistory(option.ChartName, option.Namespace, option.KubeContext, option.History)
 	if err != nil {
 		return fmt.Errorf("%v. cannot get histories", err)
 	}
@@ -32,7 +33,7 @@ func RunConfigmap(option ConfigmapOptions) error {
 	sort.Ints(revisions)
 
 	// configmapのリストを取得
-	cli, err := k8s.NewClient()
+	cli, err := k8s.NewClient(option.KubeContext)
 	if err != nil {
 		return err
 	}

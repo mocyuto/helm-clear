@@ -6,8 +6,11 @@ import (
 	cmdutil "k8s.io/kubectl/pkg/cmd/util"
 )
 
-func NewClient() (*clientset.Clientset, error) {
+func NewClient(kubeCtx string) (*clientset.Clientset, error) {
 	getter := genericclioptions.NewConfigFlags(true)
+	if kubeCtx != "" {
+		getter.Context = &kubeCtx
+	}
 	factory := cmdutil.NewFactory(getter)
 	k, err := factory.KubernetesClientSet()
 	if err != nil {

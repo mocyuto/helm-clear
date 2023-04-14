@@ -7,9 +7,8 @@ import (
 	"strconv"
 	"strings"
 
-	v1 "k8s.io/api/core/v1"
-
 	"github.com/mocyuto/helm-clear/pkg/k8s"
+	v1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
@@ -22,7 +21,7 @@ type ConfigmapOptions struct {
 }
 
 func RunConfigmap(option ConfigmapOptions) error {
-	// revision historyを取得
+	// get revision histories
 	histories, err := GetHistory(option.ChartName, option.Namespace, option.KubeContext, option.History)
 	if err != nil {
 		return fmt.Errorf("%v. cannot get histories", err)
@@ -33,7 +32,7 @@ func RunConfigmap(option ConfigmapOptions) error {
 	}
 	sort.Ints(revisions)
 
-	// 最新のrevisionのconfigmapを取得
+	// get latest revision configmap
 	manifests, err := GetManifests(option.ChartName, option.Namespace, option.KubeContext)
 	if err != nil {
 		return fmt.Errorf("%v. cannot get manifests", err)
@@ -45,7 +44,7 @@ func RunConfigmap(option ConfigmapOptions) error {
 		}
 	}
 
-	// configmapのリストを取得
+	// get configmap list
 	cli, err := k8s.NewClient(option.KubeContext)
 	if err != nil {
 		return err
@@ -59,7 +58,7 @@ func RunConfigmap(option ConfigmapOptions) error {
 	}
 	removals := removalConfigMaps(res.Items, revisions, latestConfigMaps)
 
-	// 列挙したものを削除
+	// delete removal configmaps
 	if option.DryRun {
 		fmt.Println("dry-run mode: configmaps to be removed")
 		for _, c := range removals {

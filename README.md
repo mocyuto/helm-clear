@@ -11,6 +11,6 @@ helm plugin install https://github.com/mocyuto/helm-clear
 ## Usage
 
 ```bash
-$ helm clear configmap test-chart --configmap test-config
+$ helm clear configmap test-chart --dry-run --namespace test
 ```
 

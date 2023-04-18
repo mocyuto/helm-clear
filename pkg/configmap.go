@@ -67,6 +67,7 @@ func RunConfigmap(option ConfigmapOptions) error {
 		return nil
 	}
 	for _, c := range removals {
+		fmt.Println("removing configmap:", c)
 		if err := cli.CoreV1().ConfigMaps(option.Namespace).Delete(context.Background(), c, metav1.DeleteOptions{}); err != nil {
 			return err
 		}

@@ -3,6 +3,10 @@
 A Helm plugin to clear old release's resource.
 It search revisioned configmap, and delete old configmaps.
 
+## Requirement
+
+- helm >= 3.x
+
 ## Install
 
 ```bash

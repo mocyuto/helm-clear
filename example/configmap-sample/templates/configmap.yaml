@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: sample-txt-{{ .Release.Revision }}
+  annotations:
+    "helm.sh/resource-policy": keep
+data:
+  sample.txt: |
+    this is configmap sample file,
+    content in this file would be used as a value
+    to a configmap key

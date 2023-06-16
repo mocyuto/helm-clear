@@ -1,6 +1,7 @@
 # helm-clear
 
 A Helm plugin to clear old release's resource.
+
 It search revisioned configmap, and delete old configmaps.
 
 ## Requirement
@@ -15,7 +16,12 @@ helm plugin install https://github.com/mocyuto/helm-clear --version v0.x.x
 
 ## Usage
 
-Show what configmap would be deleted.
+Set Revision to configmap name like below.
+```
+name: sample-txt-{{ .Release.Revision }}
+```
+
+Exec plugin and show what configmap would be deleted.
 
 ```bash
 helm clear configmap test-chart --dry-run --namespace test

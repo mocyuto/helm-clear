@@ -1,6 +1,6 @@
 ---
 name: "clear"
-version: "0.2.1"
+version: "0.2.2"
 usage: "Please see https://github.com/mocyuto/helm-clear"
 description: "clear helm resources which are older revisions"
 command: "$HELM_PLUGIN_DIR/bin/clear"
